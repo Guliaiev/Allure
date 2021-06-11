@@ -1,11 +1,14 @@
 package ru.netology;
 
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
 import java.time.Duration;
-
+import com.codeborne.selenide.logevents.SelenideLogger;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
@@ -31,7 +34,15 @@ public class CardOrderTest {
         $("[data-test-id=agreement]").click();
         $(".button__text").click();
     }
+    @BeforeAll
+    static void setUpAllAllure() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
 
+    @AfterAll
+    static void tearDownAll() {
+        SelenideLogger.removeListener("allure");
+    }
     @BeforeEach
     void setUp() {
         open("http://localhost:9999/");
